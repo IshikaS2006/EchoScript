@@ -1,0 +1,12 @@
+venv/
+data/
+data_clean/
+data_v2/
+checkpoints/
+outputs/
+*.wav
+*.flac
+*.pt
+*.safetensors
+__pycache__/
+.ipynb_checkpoints/
