@@ -1,8 +1,8 @@
-I took a hiring research assignment on Hindi speech recognition, fine-tuned Whisper, measured it, analyzed the errors and fixed one.
-
 # EchoScript
 
-Hindi conversational speech-to-text: fine-tuning Whisper-small on real Hindi conversations, measuring it against the pretrained model, and cleaning up the output. Built while working through a Josh Talks AI Researcher Intern (Speech & Audio) assignment.
+Hindi conversational speech-to-text: fine-tuning Whisper-small on real Hindi conversations, measuring it against the pretrained model, and cleaning up the output.
+
+Work in progress. It started as a take-home assignment from Josh Talks (AI Researcher Intern, Speech & Audio), and this repo holds my own code and write-ups for it. It is not affiliated with or endorsed by Josh Talks.
 
 ## Status
 
@@ -18,17 +18,13 @@ Hindi conversational speech-to-text: fine-tuning Whisper-small on real Hindi con
 
 No model results are reported yet. They will be added only once the runs exist.
 
-## Data (not included in this repo)
+## Data 
 
-The dataset belongs to Josh Talks and contains speaker metadata, so audio, transcripts and metadata are kept out of git (see `.gitignore`).
-
-- `NewData.csv` lists 104 recordings (102 unique speakers, 52 folders of 2 recordings each).
-- 102 recordings were available locally: about 20.0 h of audio, 12.1 h of it transcribed (5,857 segments, all 44.1 kHz mono).
-- The source bucket now returns 403 (AccessDenied) for both the old and new URLs, so the remaining 2 recordings could not be downloaded.
+Audio and speaker metadata are not in this repo (size, and the metadata describes individual speakers). Transcripts, the manifest and the CSVs used in the write-ups are included. The audio comes from the dataset provided with the assignment.
 
 ## Preprocessing (`scripts/preprocess.py`)
 
-Raw recordings become 16 kHz mono clips plus `manifest.csv`.
+Raw recordings become 16 kHz mono clips plus a manifest.
 
 | Step | Why |
 |---|---|
@@ -39,7 +35,7 @@ Raw recordings become 16 kHz mono clips plus `manifest.csv`.
 | Leave spellings, digits and word boundaries unchanged | Changing them would mean inventing labels |
 | Split by group, seed 42, 5 of 50 groups to validation | No speaker overlap between splits |
 
-Result: 5,659 clips, 11.68 h. Train 5,041 clips (10.27 h, 92 speakers, 45 groups), validation 618 clips (1.42 h, 10 speakers, 5 groups). Details in `docs/q1a_preprocessing.md`.
+Result: 5,659 clips, 11.68 h. Train 5,041 clips (10.27 h, 92 speakers, 45 groups), validation 618 clips (1.42 h, 10 speakers, 5 groups).
 
 ## Reproduce
 
@@ -47,7 +43,7 @@ Result: 5,659 clips, 11.68 h. Train 5,041 clips (10.27 h, 92 speakers, 45 groups
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
-# put the dataset under data/ (audios/, transcripts/, metadata/, NewData.csv)
+# place your licensed copy of the dataset under data/ (audios/, transcripts/, NewData.csv)
 python scripts/preprocess.py            # skips if data_clean/manifest.csv exists
 python scripts/preprocess.py --force    # rebuild
 ```
@@ -55,7 +51,7 @@ python scripts/preprocess.py --force    # rebuild
 ## Layout
 
 ```
-notebooks/   data checks and exploration (outputs stripped before commit)
+notebooks/   data checks (outputs stripped before commit)
 scripts/     download, URL rewrite, preprocessing
 docs/        write-ups
 ```
@@ -64,6 +60,5 @@ docs/        write-ups
 
 - 2 of 104 recordings are missing (bucket locked). The download scripts name files by `user_id`, which collides when a speaker has two recordings; this is what lost those 2 files originally and is not fixed.
 - About 2% of clips (114 clips, 0.26 h) have long silent padding around a short utterance. Listening to samples confirmed the labels are correct, so they were kept.
-- 21 clips are shorter than 0.3 s and have not been inspected.
-- Some digits remain in 8 labels, and spellings in the labels are inconsistent (e.g. हाँ / हां). Both are left as they are.
+- Some digits remain in 8 labels, and label spellings are inconsistent (e.g. हाँ / हां). Both are left as they are.
 - CSV `duration` values differ from the real audio length by up to about 134 s and are not used.
