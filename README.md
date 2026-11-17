@@ -9,14 +9,16 @@ Work in progress. It started as a take-home assignment from Josh Talks (AI Resea
 | Part | Status |
 |---|---|
 | Q1a: data checks and preprocessing | Done |
-| Q1b/c: baseline and fine-tuned Whisper-small, WER on FLEURS Hindi | Not started |
-| Q1d-g: error analysis, taxonomy, fixes | Not started |
+| Q1b/c: baseline and fine-tuned Whisper-small, WER on FLEURS Hindi | Baseline done (pretrained: 0.81 WER on FLEURS Hindi, our setting); fine-tune In Progress || Q1d-g: error analysis, taxonomy, fixes | Not started |
 | Q2: number normalization, `[EN]` tagging | Not started |
 | Q3: spelling validation of the unique-word list | Not started |
 | Q4: lattice-based WER | Not started |
 | FastAPI + Streamlit demo (own extra, not in the assignment) | Not started |
 
 No model results are reported yet. They will be added only once the runs exist.
+
+## Results
+Numbers, exact settings and decisions are logged in `results/RESULTS.md`. Every number names the file and notebook that produced it.
 
 ## Data 
 
